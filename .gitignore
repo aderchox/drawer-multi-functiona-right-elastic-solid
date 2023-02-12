@@ -1,0 +1,5 @@
+node_modules
+dist
+ignores
+.vscode
+.env
