@@ -1,34 +1,23 @@
-// import { useState } from "react";
 import useOneWayDebounce from "./hooks/useOneWayDebounce";
 import Drawer from "./Drawer";
 import { styled } from "solid-styled-components";
-import { createSignal, createEffect, on } from "solid-js";
+import { createSignal } from "solid-js";
 
 function App() {
   const [isExpandedByHandle, setIsExpandedByHandle] = createSignal(false);
   const [isHoverExpanded, setIsHoverExpanded] = createSignal(false);
-  const [timeoutHandle, setTimeoutHandle] = createSignal();
-  // const debouncedIsHoverExpanded = () =>
-  //   useOneWayDebounce(
-  //     isHoverExpanded(),
-  //     () => new Promise((cb) => setTimeout(cb, 1000))
-  //   );
+  // const [timeoutHandle, setTimeoutHandle] = createSignal();
+  const debouncedIsHoverExpanded = useOneWayDebounce(isHoverExpanded, 1000);
 
   function drawerHandleTrigger(e) {
     setIsExpandedByHandle((prev) => !prev);
   }
 
   function hoverEnterHandler(e) {
-    clearTimeout(timeoutHandle());
-    setTimeoutHandle(
-      setTimeout(() => {
-        setIsHoverExpanded(true);
-      }, 500)
-    );
+    setIsHoverExpanded(true);
   }
 
   function hoverLeaveHandler(e) {
-    clearTimeout(timeoutHandle());
     setIsHoverExpanded(false);
   }
 
@@ -51,8 +40,8 @@ function App() {
     <Wrapper>
       <Button onClick={drawerHandleTrigger}>==</Button>
       <Drawer
-        // isHoverExpanded={debouncedIsHoverExpanded()}
-        isHoverExpanded={isHoverExpanded()}
+        isHoverExpanded={debouncedIsHoverExpanded()}
+        // isHoverExpanded={isHoverExpanded()}
         isExpandedByHandle={isExpandedByHandle()}
         onMouseEnter={hoverEnterHandler}
         onMouseLeave={hoverLeaveHandler}
