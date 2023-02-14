@@ -2,25 +2,33 @@
 import useOneWayDebounce from "./hooks/useOneWayDebounce";
 import Drawer from "./Drawer";
 import { styled } from "solid-styled-components";
-import { createSignal } from "solid-js";
+import { createSignal, createEffect, on } from "solid-js";
 
 function App() {
   const [isExpandedByHandle, setIsExpandedByHandle] = createSignal(false);
   const [isHoverExpanded, setIsHoverExpanded] = createSignal(false);
+  const [timeoutHandle, setTimeoutHandle] = createSignal();
   // const debouncedIsHoverExpanded = () =>
-  //   useOneWayDebounce(isHoverExpanded(), 400);
+  //   useOneWayDebounce(
+  //     isHoverExpanded(),
+  //     () => new Promise((cb) => setTimeout(cb, 1000))
+  //   );
 
   function drawerHandleTrigger(e) {
     setIsExpandedByHandle((prev) => !prev);
   }
 
   function hoverEnterHandler(e) {
-    // console.log("true");
-    setIsHoverExpanded(true);
+    clearTimeout(timeoutHandle());
+    setTimeoutHandle(
+      setTimeout(() => {
+        setIsHoverExpanded(true);
+      }, 500)
+    );
   }
 
   function hoverLeaveHandler(e) {
-    // console.log("false");
+    clearTimeout(timeoutHandle());
     setIsHoverExpanded(false);
   }
 

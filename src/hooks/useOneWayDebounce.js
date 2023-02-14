@@ -1,26 +1,12 @@
-// WRONG CODE — Work In Progress
-import { createSignal, createEffect } from "solid-js";
+import { createSignal } from "solid-js";
 
-export default function useOneWayDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = createSignal(value);
-
-  createEffect(() => {
-    if (value !== false && value !== true) {
-      return debouncedValue;
-    }
-
-    if (value === false) {
-      setDebouncedValue(false);
-    } else {
-      const handler = setTimeout(() => {
-        setDebouncedValue(true);
-      }, delay);
-      // return () => {
-      //   clearTimeout(handler);
-      // };
-    }
-  });
-
-  // console.log({ debouncedValue: debouncedValue() });
-  return debouncedValue;
+export default function createDebounced(v, options) {
+  const [value, setValue] = createSignal(v);
+  let crn = 0;
+  const setValueDebounced = async (v) => {
+    const ref = (crn += 1) % Number.MAX_SAFE_INTEGER;
+    await options.delayer();
+    if (ref === crn) setValue(() => v);
+  };
+  return [value, setValueDebounced];
 }
