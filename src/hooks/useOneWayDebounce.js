@@ -2,18 +2,14 @@ import { createSignal, createEffect, on, onCleanup } from "solid-js";
 
 export default function createDebounced(signal, delay) {
   const [debouncedSignal, setDebouncedSignal] = createSignal(signal());
-  const [timerHandle, setTimerHandle] = createSignal();
-
+  let timerHandle;
   createEffect(
     on(signal, (s) => {
-      setTimerHandle(
-        setTimeout(() => {
-          setDebouncedSignal(s);
-        }, delay)
-      );
-      onCleanup(() => clearTimeout(timerHandle()));
+      timerHandle = setTimeout(() => {
+        setDebouncedSignal(s);
+      }, delay);
+      onCleanup(() => clearTimeout(timerHandle));
     })
   );
-
   return debouncedSignal;
 }

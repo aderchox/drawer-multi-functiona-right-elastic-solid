@@ -5,7 +5,9 @@ import { createSignal } from "solid-js";
 
 function App() {
   const [isExpandedByHandle, setIsExpandedByHandle] = createSignal(false);
-  const [isHoverExpanded, setIsHoverExpanded] = createSignal(false);
+  const [isHoverExpanded, setIsHoverExpanded] = createSignal(false, {
+    equals: false,
+  });
   // const [timeoutHandle, setTimeoutHandle] = createSignal();
   const debouncedIsHoverExpanded = useOneWayDebounce(isHoverExpanded, 1000);
 
