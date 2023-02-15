@@ -14,6 +14,7 @@
     "vite-plugin-solid": "^2.5.0"
   },
   "dependencies": {
+    "@solid-primitives/scheduled": "^1.2.1",
     "solid-js": "^1.6.10",
     "solid-styled-components": "^0.28.5"
   }

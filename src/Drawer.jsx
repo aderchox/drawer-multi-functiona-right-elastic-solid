@@ -1,4 +1,3 @@
-// import { useEffect, useState } from "react";
 import { styled } from "solid-styled-components";
 // import useMediaQuery from "./hooks/useMediaQuery";
 
